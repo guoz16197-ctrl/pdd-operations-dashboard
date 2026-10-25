@@ -1,14 +1,24 @@
 const state={data:null,rows:[],filtered:[],activityRows:[],filteredActivities:[],selectedSection:'全部',sortKey:'库存',sortAsc:true};
+const refreshIntervalMs=120000;
 const money=v=>Number(String(v??0).replaceAll(',',''))||0;
 const fmt=n=>new Intl.NumberFormat('zh-CN').format(Number(n)||0);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 async function boot(){
-  const response=await fetch('./data.json',{cache:'no-store'});
+  await refreshData();
+  bind();
+  window.setInterval(()=>refreshData().catch(showRefreshError),refreshIntervalMs);
+}
+
+async function refreshData(){
+  const response=await fetch(`./data.json?v=${Date.now()}`,{cache:'no-store'});
   if(!response.ok) throw new Error('数据文件读取失败');
   state.data=await response.json();state.rows=state.data.商品||[];state.filtered=[...state.rows];state.activityRows=state.data.活动记录||[];state.filteredActivities=state.activityRows.filter(r=>!r.是否失效);
-  hydrate();bind();
+  hydrate();
+  if(document.querySelector('#search-input')){applyFilters();applyActivityFilters()}
 }
+
+function showRefreshError(error){const el=document.querySelector('#updated-at');if(el){el.textContent='同步失败';el.title=error.message||String(error)}}
 
 function hydrate(){
   const rows=state.rows,total=rows.length,onsale=rows.filter(r=>r.在售状态==='在售').length,stock=rows.reduce((s,r)=>s+money(r.库存),0),low=rows.filter(r=>money(r.库存)<=10);
