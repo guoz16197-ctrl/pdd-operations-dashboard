@@ -17,6 +17,7 @@
       <nav aria-label="工作台导航">
         <button class="nav-item active" data-view="overview"><span>⌁</span>经营概览</button>
         <button class="nav-item" data-view="products"><span>▦</span>商品与活动</button>
+        <button class="nav-item" data-view="promotions"><span>◈</span>商品推广</button>
         <button class="nav-item" data-view="inventory"><span>◫</span>库存预警</button>
       </nav>
       <div class="sidebar-foot">
@@ -79,7 +80,7 @@
         </div>
         <div class="table-wrap panel">
           <table>
-            <thead><tr><th><button class="table-sort" data-product-sort="商品名称">商品 <span class="sort-arrow">↕</span></button></th><th><button class="table-sort" data-product-sort="库存">库存 <span class="sort-arrow">↕</span></button></th><th>状态</th><th><button class="table-sort" data-product-sort="今日支付">今日支付 <span class="sort-arrow">↕</span></button></th><th><button class="table-sort" data-product-sort="今日订单">今日订单 <span class="sort-arrow">↕</span></button></th><th><button class="table-sort" data-product-sort="活动数">活动与优惠券 <span class="sort-arrow">↕</span></button></th></tr></thead>
+            <thead><tr><th><button class="table-sort" data-product-sort="商品名称">商品 <span class="sort-arrow">↕</span></button></th><th><button class="table-sort" data-product-sort="库存">库存 <span class="sort-arrow">↕</span></button></th><th>状态</th><th><button class="table-sort" data-product-sort="访客">访客 <span class="sort-arrow">↕</span></button></th><th><button class="table-sort" data-product-sort="成交金额">成交金额 <span class="sort-arrow">↕</span></button></th><th><button class="table-sort" data-product-sort="成交买家">成交买家 <span class="sort-arrow">↕</span></button></th><th><button class="table-sort" data-product-sort="成交转化率">成交转化率 <span class="sort-arrow">↕</span></button></th><th><button class="table-sort" data-product-sort="收藏用户">收藏用户数 <span class="sort-arrow">↕</span></button></th><th><button class="table-sort" data-product-sort="活动数">活动与优惠券 <span class="sort-arrow">↕</span></button></th></tr></thead>
             <tbody id="product-table-body"></tbody>
           </table>
           <div id="empty-state" class="empty-state" hidden>没有符合当前筛选条件的商品</div>
@@ -122,6 +123,26 @@
           <div id="activity-empty" class="empty-state" hidden>没有符合条件的活动记录</div>
         </div>
       </div>
+      </section>
+
+      <section id="promotions" class="view">
+        <div class="promotion-heading">
+          <div><p class="eyebrow">PRODUCT PROMOTION</p><h2>商品推广</h2><p>独立展示拼多多推广单元及对应商品，不与营销活动合并。</p></div>
+          <span class="pill" id="promotion-date">—</span>
+        </div>
+        <div id="promotion-summary" class="promotion-summary"></div>
+        <div class="toolbar promotion-toolbar">
+          <label class="search-box"><span>⌕</span><input id="promotion-search" type="search" placeholder="搜索推广商品、商品ID或推广ID"></label>
+          <select id="promotion-status-filter" aria-label="推广状态"><option value="all">全部推广状态</option><option value="running">投放中</option><option value="other">其他状态</option></select>
+          <div class="result-count" id="promotion-result-count">—</div>
+        </div>
+        <div class="table-wrap panel promotion-table-wrap">
+          <table>
+            <thead><tr><th>推广商品</th><th>状态</th><th>日限额</th><th>目标投产比</th><th>消耗</th><th>成交金额</th><th>实际投产比</th><th>流量与转化</th></tr></thead>
+            <tbody id="promotion-table-body"></tbody>
+          </table>
+          <div id="promotion-empty" class="empty-state" hidden>没有符合条件的商品推广数据</div>
+        </div>
       </section>
 
       <section id="inventory" class="view">
